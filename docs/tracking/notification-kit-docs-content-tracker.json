@@ -1,0 +1,37 @@
+{
+  "$schema": "notification-kit-docs-content-tracker",
+  "description": "Tracks documentation page coverage for the notification-kit docs site. Every page is source-accurate against the notification-kit package src/. Resumable: add pages as the API grows.",
+  "project": "notification-kit-docs",
+  "sourcePackage": "notification-kit",
+  "sourceRepo": "/home/ahsan/Documents/01-code/projects/00-npm-packages-projects/notification-kit",
+  "createdAt": "2026-06-23",
+  "lastUpdated": "2026-06-23",
+  "buildGates": ["yarn typecheck", "yarn build"],
+  "totalPages": 28,
+  "completedPages": 28,
+  "sections": {
+    "root": ["intro", "changelog", "about-the-author"],
+    "getting-started": ["installation", "quick-start", "configuration"],
+    "guides": ["push-notifications", "local-notifications", "in-app-notifications", "channels", "permissions", "events", "react-hooks"],
+    "platforms": ["web", "android", "ios"],
+    "providers": ["firebase", "onesignal"],
+    "reference": ["api-overview", "notification-kit", "notifications", "react-hooks", "config-types", "events", "utilities"],
+    "help": ["faq", "troubleshooting"]
+  },
+  "batches": [
+    {
+      "id": "batch-01",
+      "date": "2026-06-23",
+      "status": "complete",
+      "summary": "Initial complete baseline: all 28 pages authored source-accurate from the package src/ (index.ts, NotificationKit.ts, react hooks, types.ts, providers). Site builds clean.",
+      "skills": ["docusaurus-config-setup", "technical-writing", "ai-seo", "api-documentation"]
+    }
+  ],
+  "honestyNotes": [
+    "Client-side push SEND is documented as unsupported (Firebase provider throws) — it is a server-side Admin SDK operation.",
+    "FCM topic subscribe/unsubscribe is documented as server-side only — the client throws a descriptive error directing to the backend.",
+    "permissions.openSettings() is documented as not implemented internally (zero-dependency design).",
+    "No fabricated download counts / benchmarks anywhere."
+  ],
+  "nextSteps": "Re-run only when the notification-kit public API changes; update the matching reference page + bump lastUpdated. Deploy is USER-ONLY."
+}

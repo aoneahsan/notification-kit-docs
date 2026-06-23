@@ -1,0 +1,87 @@
+/**
+ * notification-kit — brand palette
+ * Primary: indigo (the notification-bell brand color)
+ * Accent: amber (decorative; used for hover/focus rings)
+ */
+
+:root {
+  --ifm-color-primary: #4f46e5;
+  --ifm-color-primary-dark: #4338ca;
+  --ifm-color-primary-darker: #3f33bf;
+  --ifm-color-primary-darkest: #342a9d;
+  --ifm-color-primary-light: #6366f1;
+  --ifm-color-primary-lighter: #7376f2;
+  --ifm-color-primary-lightest: #9598f5;
+
+  --ifm-color-secondary: #f59e0b;
+  --ifm-color-success: #10b981;
+  --ifm-color-info: #6366f1;
+  --ifm-color-warning: #f59e0b;
+  --ifm-color-danger: #ef4444;
+
+  --ifm-code-font-size: 92%;
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --ifm-heading-font-weight: 700;
+
+  --docusaurus-highlighted-code-line-bg: rgba(99, 102, 241, 0.10);
+
+  /* Soft accent surfaces used by callouts + hero strips */
+  --nk-surface-accent: rgba(245, 158, 11, 0.06);
+  --nk-surface-brand: rgba(99, 102, 241, 0.06);
+}
+
+/* Dark mode overrides — keep brand recognisable, raise contrast */
+[data-theme='dark'] {
+  --ifm-color-primary: #818cf8;
+  --ifm-color-primary-dark: #6366f1;
+  --ifm-color-primary-darker: #5457f0;
+  --ifm-color-primary-darkest: #4044ee;
+  --ifm-color-primary-light: #9aa2fa;
+  --ifm-color-primary-lighter: #a7adfb;
+  --ifm-color-primary-lightest: #c2c6fd;
+
+  --ifm-background-color: #0b1020;
+  --ifm-background-surface-color: #131a30;
+
+  --docusaurus-highlighted-code-line-bg: rgba(129, 140, 248, 0.18);
+}
+
+/* ---------------------------------------------------------------------------
+ * Subtle entrance animation on body content (CSS-only, respects reduced motion)
+ * ------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  .markdown > h1,
+  .markdown > h2 {
+    animation: nk-fade-up 420ms ease-out both;
+  }
+  @keyframes nk-fade-up {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+ * Code block polish
+ * ------------------------------------------------------------------------- */
+.theme-code-block {
+  border-radius: 10px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Author callout used on the about-the-author page (no extra component needed)
+ * ------------------------------------------------------------------------- */
+.nk-author-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-left: 4px solid var(--ifm-color-primary);
+  border-radius: 12px;
+  background: var(--nk-surface-brand);
+  margin: 1.5rem 0;
+}
+
+.nk-author-card a {
+  font-weight: 600;
+}

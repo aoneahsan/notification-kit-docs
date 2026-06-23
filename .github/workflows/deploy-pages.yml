@@ -1,0 +1,59 @@
+# ──────────────────────────────────────────────────────────────────────────
+# GitHub Pages deploy for the notification-kit documentation site.
+#
+# Builds the Docusaurus site with Yarn and publishes ./build to GitHub Pages.
+# Runs on push to main, or manually via the Actions tab.
+#
+# To activate: repo Settings → Pages → Source = "GitHub Actions".
+# A custom domain (static/CNAME → notification-kit-docs.aoneahsan.com) is
+# included in the build output, so set the matching DNS CNAME at your registrar.
+#
+# Firebase Hosting is the alternative host (see firebase.json + the
+# `firebase:deploy` script in package.json). Use whichever you prefer.
+# ──────────────────────────────────────────────────────────────────────────
+
+name: Deploy docs to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build (Docusaurus)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Enable Corepack (Yarn)
+        run: corepack enable
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Build
+        run: yarn build
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: build
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

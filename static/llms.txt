@@ -1,0 +1,60 @@
+# notification-kit — Documentation Index
+
+> notification-kit is a unified notification library for React + Capacitor apps. One API for push notifications (via Firebase Cloud Messaging or OneSignal), local notifications (via @capacitor/local-notifications), and in-app toast notifications, across Web, iOS, and Android. Zero required dependencies — every peer dependency is optional and loaded dynamically. Dual ESM + CJS build, full TypeScript types, optional React hooks. MIT-licensed. npm package: https://www.npmjs.com/package/notification-kit. Author: Ahsan Mahmood (https://aoneahsan.com).
+
+## About
+
+`notification-kit` gives a React + Capacitor app a single notification API instead of wiring Firebase / OneSignal / Capacitor plugins separately. You initialize once with a provider, then call `notifications.requestPermission()`, `getToken()`, `subscribe()`, `schedule()`, `showInApp()`, `createChannel()`, and listen with `onPush()` / `on(event)`. The same calls work on Web, iOS, and Android; the library detects the platform and degrades gracefully when an optional dependency is not installed.
+
+Honest scope: push **sending** and FCM **topic (un)subscription** are server-side operations (Firebase Admin SDK / IID API) — the client SDK throws a descriptive error pointing you to your backend, because performing them client-side would require shipping admin credentials. This `llms.txt` follows the [llmstxt.org](https://llmstxt.org) spec.
+
+## Getting Started
+
+- [Introduction](https://notification-kit-docs.aoneahsan.com/intro): What notification-kit is, the three notification types, and how the unified API is structured.
+- [Installation](https://notification-kit-docs.aoneahsan.com/getting-started/installation): npm/yarn install + which optional peer dependencies to add per provider and platform.
+- [Quick Start](https://notification-kit-docs.aoneahsan.com/getting-started/quick-start): Initialize, request permission, get a token, and show your first in-app notification in five minutes.
+- [Configuration](https://notification-kit-docs.aoneahsan.com/getting-started/configuration): The full `NotificationConfig` object — provider, in-app defaults, debug, storage, and feature flags.
+
+## Guides
+
+- [Push notifications](https://notification-kit-docs.aoneahsan.com/guides/push-notifications): Permission, token, topics, and receiving messages with `onPush`.
+- [Local notifications](https://notification-kit-docs.aoneahsan.com/guides/local-notifications): Schedule at a date, after a delay, or on a recurring pattern; cancel, list pending, read delivered.
+- [In-app notifications](https://notification-kit-docs.aoneahsan.com/guides/in-app-notifications): Toast success/error/warning/info with positions, durations, and actions.
+- [Android channels](https://notification-kit-docs.aoneahsan.com/guides/channels): Create/list/delete channels with importance, visibility, sound, vibration, lights.
+- [Permissions](https://notification-kit-docs.aoneahsan.com/guides/permissions): Provider-driven vs the standalone permission helper; permission states.
+- [Events](https://notification-kit-docs.aoneahsan.com/guides/events): The full event map and how to subscribe/unsubscribe.
+- [React hooks](https://notification-kit-docs.aoneahsan.com/guides/react-hooks): `useNotifications` and the in-app notification hooks.
+
+## Platform Setup
+
+- [Web](https://notification-kit-docs.aoneahsan.com/platforms/web): Service worker template, VAPID key, browser support matrix.
+- [Android](https://notification-kit-docs.aoneahsan.com/platforms/android): `google-services.json`, POST_NOTIFICATIONS, channels, FCM setup.
+- [iOS](https://notification-kit-docs.aoneahsan.com/platforms/ios): APNs key, Push Notifications capability, background modes.
+
+## Providers
+
+- [Firebase (FCM)](https://notification-kit-docs.aoneahsan.com/providers/firebase): `FirebaseConfig` (raw config or existing app), VAPID key, server-side topic/send caveats.
+- [OneSignal](https://notification-kit-docs.aoneahsan.com/providers/onesignal): `OneSignalConfig` (appId or existing instance), prompt and notify-button options.
+
+## API Reference
+
+- [API overview](https://notification-kit-docs.aoneahsan.com/reference/api-overview): Every export from `notification-kit` and `notification-kit/react`.
+- [NotificationKit class](https://notification-kit-docs.aoneahsan.com/reference/notification-kit): `init`, `requestPermission`, `getToken`, `subscribe`, `scheduleLocalNotification`, `createChannel`, `on/off`, `destroy`.
+- [notifications helper](https://notification-kit-docs.aoneahsan.com/reference/notifications): The flat convenience API (`schedule`, `cancel`, `getPending`, `getDelivered`, `success/error/warning/info`, `onPush`).
+- [React hooks](https://notification-kit-docs.aoneahsan.com/reference/react-hooks): `useNotifications`, `useInAppNotification` and its variants, with full return types.
+- [Config & types](https://notification-kit-docs.aoneahsan.com/reference/config-types): `NotificationConfig`, `FirebaseConfig`, `OneSignalConfig`, `ScheduleOptions`, `InAppOptions`, `NotificationChannel`.
+- [Events](https://notification-kit-docs.aoneahsan.com/reference/events): The complete event-name → payload map.
+- [Utilities](https://notification-kit-docs.aoneahsan.com/reference/utilities): `validate`, `format`, `SchedulingUtils`, `platform`, `permissions`, `storage`, `quickStart`, `dev`.
+
+## Help
+
+- [FAQ](https://notification-kit-docs.aoneahsan.com/help/faq): Common questions about providers, platforms, server-side sending, and bundle size.
+- [Troubleshooting](https://notification-kit-docs.aoneahsan.com/help/troubleshooting): Permission denials, missing tokens, channels not appearing, service-worker issues.
+- [Changelog](https://notification-kit-docs.aoneahsan.com/changelog): Version history.
+
+## About the project
+
+- [About the Author](https://notification-kit-docs.aoneahsan.com/about-the-author): Ahsan Mahmood's developer profile, links, contact.
+- npm package: https://www.npmjs.com/package/notification-kit
+- Source (GitHub): https://github.com/aoneahsan/notification-kit
+- License: MIT

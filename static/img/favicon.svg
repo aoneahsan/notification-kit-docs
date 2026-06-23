@@ -1,0 +1,12 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="notification-kit favicon">
+  <defs>
+    <linearGradient id="nkFavGrad" x1="4" y1="3" x2="28" y2="29" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6366f1"/>
+      <stop offset="1" stop-color="#4f46e5"/>
+    </linearGradient>
+  </defs>
+  <rect x="1" y="1" width="30" height="30" rx="7" fill="url(#nkFavGrad)"/>
+  <path d="M16 7a5.5 5.5 0 0 0-5.5 5.5v3.1c0 .7-.3 1.4-.8 1.9l-1.2 1.2c-.7.7-.2 1.9.8 1.9h13.4c1 0 1.5-1.2.8-1.9l-1.2-1.2a2.6 2.6 0 0 1-.8-1.9V12.5A5.5 5.5 0 0 0 16 7Z" fill="#ffffff"/>
+  <path d="M13.5 23a2.5 2.5 0 0 0 5 0Z" fill="#ffffff"/>
+  <circle cx="22.5" cy="9.5" r="3" fill="#f59e0b"/>
+</svg>

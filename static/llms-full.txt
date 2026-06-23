@@ -1,0 +1,77 @@
+# notification-kit — Full Documentation for LLMs
+
+> Extended, self-contained reference for notification-kit, a unified notification library for React + Capacitor apps. Source of truth: the package source at https://github.com/aoneahsan/notification-kit (npm: https://www.npmjs.com/package/notification-kit). Author: Ahsan Mahmood (https://aoneahsan.com). License: MIT.
+
+## What it is
+
+notification-kit exposes one API for three notification types in a React + Capacitor app:
+
+1. Push notifications — through a pluggable provider, either Firebase Cloud Messaging (`firebase`) or OneSignal (`onesignal`). The library manages permission, device token, topic subscription requests, and inbound message delivery.
+2. Local notifications — through `@capacitor/local-notifications`. Schedule at an absolute date, after a relative delay, or on a recurring calendar pattern; cancel, list pending, and read or remove delivered notifications.
+3. In-app notifications — toast-style messages rendered inside the app (`success`, `error`, `warning`, `info`) with configurable position, duration, dismissibility, and action buttons. These need no native plugin and work in any browser.
+
+Every peer dependency (`@capacitor/core`, `@capacitor/local-notifications`, `@capacitor/preferences`, `@capacitor/push-notifications`, `firebase`, `react`, `react-dom`, `react-onesignal`) is optional and loaded dynamically. The core runs with none of them installed and degrades gracefully when one is missing.
+
+## Initialization
+
+```ts
+import { notifications } from 'notification-kit';
+
+await notifications.init({
+  provider: 'firebase',
+  config: {
+    apiKey: '...', authDomain: '...', projectId: '...',
+    storageBucket: '...', messagingSenderId: '...', appId: '...',
+    vapidKey: '...', // required for web push
+  },
+});
+```
+
+`NotificationConfig` fields: `provider` ('firebase' | 'onesignal'), `config` (provider config), `inApp?`, `styles?`, `debug?`, `serviceWorkerPath?`, `autoInit?`, `storage?`, `analytics?`, `environment?`, `features?`, `localization?`, `security?`, `backup?`.
+
+`FirebaseConfig` is either `{ app, vapidKey? }` (an existing Firebase app) or the raw `{ apiKey, authDomain, projectId, storageBucket, messagingSenderId, appId, measurementId?, vapidKey? }`.
+
+`OneSignalConfig` is either `{ instance }` (existing OneSignal instance) or `{ appId, restApiKey?, safariWebId?, autoPrompt?, autoResubscribe?, notifyButton?, welcomeNotification?, ... }`.
+
+## Core methods (NotificationKit / notifications)
+
+- `requestPermission(): Promise<boolean>` — provider-driven permission flow (FCM registration / OneSignal prompt).
+- `checkPermission(): Promise<PermissionStatus>` — 'granted' | 'denied' | 'prompt' | 'provisional' | 'default' | 'unknown'.
+- `getToken(): Promise<string>` — device push token.
+- `subscribe(topic) / unsubscribe(topic)` — request topic (un)subscription. Note: with Firebase this throws a descriptive error because FCM topic management is server-side only (Admin SDK / IID API); send the token from `getToken()` to your backend.
+- `scheduleLocalNotification(options) / notifications.schedule(options)` — schedule a local notification. Local notification ids must be numeric (or numeric strings) so they can be cancelled.
+- `cancelLocalNotification(id)` / `notifications.cancel(id)`, `notifications.cancelAll()`.
+- `getPendingLocalNotifications()` / `notifications.getPending()`, `notifications.getDelivered()`, `notifications.removeDelivered(id)`, `notifications.removeAllDelivered()`.
+- `showInAppNotification(options)` / `notifications.showInApp(options)`, and the shortcuts `notifications.success/error/warning/info(title, message?)`.
+- `createChannel(channel) / deleteChannel(id) / listChannels()` — Android only; no-ops on other platforms.
+- `on(event, cb) / off(event, cb)` — event subscription; `on` returns an unsubscribe function.
+- `notifications.onPush(cb)` — forwards only push (not local) received notifications.
+- `notifications.onPushOpened(cb)` — notification opened / action performed.
+- `isSupported()`, `getPlatform()`, `getCapabilities()`, `isInitialized()`, `destroy()`.
+
+Client-side `sendNotification()` on the Firebase provider throws — sending push is a server-side Admin-SDK operation by design.
+
+## Local-notification scheduling
+
+`ScheduleOptions` supports `at` (Date | string), `in` (a `Duration` like `{ minutes: 5 }` or a raw ms number), `every` (repeat interval), `on` (calendar pattern `{ hour, minute, weekday, ... }`), `count`, `until`, plus Android channel/sound/icon fields and iOS thread/summary fields.
+
+## In-app notifications
+
+`InAppOptions`: `{ title, message?, type?, duration?, position?, dismissible?, action?, actions?, onAction?, data?, icon?, className?, style?, onDismiss? }`. `position` is one of `top`, `top-left`, `top-right`, `bottom`, `bottom-left`, `bottom-right`, `center`.
+
+## React hooks (notification-kit/react)
+
+- `useNotifications()` returns state (`isInitialized`, `permission`, `token`, `notifications`, `pendingNotifications`, `subscriptions`, `error`) and actions (`init`, `destroy`, `requestPermission`, `getToken`, `subscribe`, `scheduleNotification`, `createChannel`, `addEventListener`, `showInApp.*`, `refresh`, `isSupported`).
+- `useInAppNotification`, `useInAppNotificationSimple`, `useInAppNotificationQueue`, `useInAppNotificationPersistence`.
+
+## Events
+
+Subscribe with `notifications.on(event, cb)`. Event names include `ready`, `notificationReceived`, `notificationActionPerformed`, `notificationSent`, `notificationScheduled`, `notificationCancelled`, `channelCreated`, `channelDeleted`, `tokenReceived`, `tokenRefreshed`, `permissionChanged`, `subscribed`, `unsubscribed`, `error`. The canonical `event.type` is the event name; the original payload is also available under `event.data`.
+
+## Platform notes
+
+- Web: needs a service worker (templates ship for Firebase and OneSignal) and a VAPID key for FCM web push.
+- Android: needs `google-services.json`, the `POST_NOTIFICATIONS` runtime permission (Android 13+), and notification channels.
+- iOS: needs an APNs auth key uploaded to your provider, the Push Notifications capability, and the remote-notifications background mode.
+
+License: MIT. Built by Ahsan Mahmood — https://aoneahsan.com.
