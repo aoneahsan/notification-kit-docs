@@ -28,7 +28,6 @@
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc --noEmit",
     "firebase:emulate": "yarn build && npx -y firebase-tools@latest emulators:start --only hosting",
-    "firebase:deploy": "yarn build && npx -y firebase-tools@latest deploy --only hosting --project notification-kit-docs",
     "firebase:deploy:preview": "yarn build && npx -y firebase-tools@latest hosting:channel:deploy preview --project notification-kit-docs --expires 7d"
   },
   "dependencies": {
