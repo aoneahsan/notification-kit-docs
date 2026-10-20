@@ -16,7 +16,7 @@ const config: Config = {
     'One API for push, local, and in-app notifications across Web, iOS, and Android — for React + Capacitor apps.',
   favicon: 'img/favicon.svg',
 
-  // Production URL — served from Firebase Hosting / GitHub Pages.
+  // Production URL — served from GitHub Pages.
   url: SITE_URL,
   baseUrl: '/',
 
@@ -176,6 +176,8 @@ const config: Config = {
             '**/*.test.{js,jsx,ts,tsx}',
             '**/__tests__/**',
             'MANUAL-TASKS.md',
+            'AGENTS.md',
+            'CLAUDE.md',
           ],
           routeBasePath: '/',
           editUrl: 'https://github.com/aoneahsan/notification-kit-docs/edit/main/',

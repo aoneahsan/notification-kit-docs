@@ -1,79 +1,55 @@
 # CLAUDE.md — notification-kit-docs
 
-Public Docusaurus documentation site for the `notification-kit` npm package.
+**Last optimized:** 2026-10-20
+**Next routine optimization:** 2026-11-19
 
-> Last Updated: 2026-06-23
+## Scope
 
-## Task Speed Over Docs (IRON-SOLID — BEHAVIORAL)
+Public Docusaurus 3 documentation for `notification-kit`. The package source is
+`/home/ahsan/Documents/01-code/projects/00-npm-packages-projects/notification-kit`; its `src/` tree and built
+declarations are authoritative for every API claim.
 
-Finish the real task fast + correctly FIRST; docs/trackers/sync are a footnote (≤~20% of effort) — never let recording outpace the fix. HARD STOP when doc work outpaces the change → ship, then ONE line if anything. No new summary/status/completion files unless asked; edit/delete over add; delete stale docs. Full rule: `~/.claude/CLAUDE.md`.
-
-## Identity
-
-| Key | Value |
+| Item | Current value |
 |---|---|
-| Repo | `notification-kit-docs` (PUBLIC) |
-| Type | Docusaurus 3 documentation site (classic preset) |
-| Package manager | yarn (NEVER npm/pnpm) |
-| Node | >=18 |
-| Author | Ahsan Mahmood (aoneahsan@gmail.com) |
-| Live URL | https://notification-kit-docs.aoneahsan.com (Firebase Hosting `notification-kit-docs` OR GitHub Pages — both wired; deploy is USER-ONLY) |
-| Source package | https://www.npmjs.com/package/notification-kit (private repo `notification-kit`) |
-| Sibling project | `/home/ahsan/Documents/01-code/projects/00-npm-packages-projects/notification-kit/` (the library itself) |
-| Content tracker | `docs/tracking/notification-kit-docs-content-tracker.json` |
-| Build gates | `yarn typecheck` exit 0 · `yarn build` (→ `./build`) exit 0 |
+| Package documented | `notification-kit@2.1.3` |
+| Live site | `https://notification-kit-docs.aoneahsan.com` |
+| Hosting | GitHub Pages from `main` |
+| Package manager | Yarn 4.17.1 only |
+| Node | `>=18`; deployment uses Node 20 |
 
-## Critical rules
+## Start here
 
-| Rule | Detail |
-|---|---|
-| Yarn only | Never `npm install` / `pnpm add`. |
-| No dev server in agent runs | The agent runs `yarn build` + `yarn typecheck`; the maintainer runs `yarn start`. |
-| Single source of truth | Every API fact MUST come from the `notification-kit` repo's `src/`. No invented method names or parameters. Read the source before documenting it. |
-| Honest framing | Say what the library does NOT do (e.g. client-side push send and FCM topic management are server-side only) as clearly as what it does. No fabricated stats. |
-| No secrets | This is a PUBLIC repo. Never commit real API keys, VAPID keys, or service-account JSON — use placeholders. |
-| One commit per batch | Don't make per-file commits for a docs batch. |
-| CLAUDE.md + AGENTS.md sync | Update both at every level when changing rules. Review every 3 days. |
+Read the nearest guide pair, the page being changed, the relevant package source, and `sidebars.ts` when
+adding or removing a route. Do not infer an API from old prose or historical trackers.
 
-## Verification commands
+## Commands
 
 ```bash
-yarn typecheck       # tsc --noEmit (must exit 0)
-yarn build           # docusaurus build (must exit 0, must produce ./build)
+yarn install --immutable
+yarn typecheck
+yarn build
+yarn serve
 ```
 
-## Deploy (USER-ONLY)
+Inspect the exact `build/` output in a controlled browser before pushing a deploy-triggering commit.
 
-- Firebase: `yarn firebase:deploy` (project `notification-kit-docs`).
-- GitHub Pages: `.github/workflows/deploy-pages.yml` on push to main (enable in repo Settings → Pages). `static/CNAME` maps the custom domain.
+## Content rules
 
-## Gitignore Hygiene (IRON-SOLID)
-`.gitignore` stays current with the project structure — ignore only recoverable artifacts (build/`dist`/`www`/`node_modules`/logs/caches/IDE), never lose source. Custom rules always present: `*.ignore.*`, `project-record-ignore/`. This is a **PUBLIC** repo -> secrets/`.env`/keystores are NEVER tracked.
-Full rule + private/public protocol: `~/.claude/rules/project-config.md`.
-Gitignore Last Verified: 2026-06-24
+- Match public names, types, return values, defaults, platform limits, and examples to package source.
+- State that privileged push sends and Firebase topic management require a server.
+- Keep examples copyable and use placeholders for every credential or provider identifier.
+- Update `docs/changelog.md`, `static/llms.txt`, and `static/llms-full.txt` when their indexed facts change.
+- Keep new user-visible UI strings in the site’s established content system.
+- Never install, import, vendor, or copy an owner-created client package, including `@perkforce/tool-kit`.
 
+## Publishing
 
-## Sub-agents & Skills — Main-Context-First (IRON-SOLID)
-Default/built-in sub-agents (`general-purpose`, `Explore`, `Plan`, `claude`, `fork`, …) do NOT have
-access to `/skills`, so delegating to them silently SKIPS the skills RULE #0 requires. Do all
-skill-relevant work in the **MAIN context**; use a sub-agent ONLY when a **custom** agent exists in
-`.claude/agents/` for that job; a default `Explore`/`Plan` agent is allowed ONLY for read-only,
-no-skill search/exploration. When a relevant skill is missing, **install/enable it** rather than
-proceeding skill-less. (Owner directive 2026-07-11; full text in `~/.claude/CLAUDE.md`.)
+`.github/workflows/deploy-pages.yml` builds and deploys on pushes to `main`. `static/CNAME` owns the custom
+domain. After pushing, require a successful Pages run and HTTP 200 responses from the live home page and
+every changed route.
 
-<!-- RULE:main-context-model-workflow v2026-07-16 -->
-## Main-Context + Skills + Model Workflow (IRON-SOLID — CRITICAL)
-1. **NO default/built-in sub-agents** (`general-purpose`, `Explore`, `Plan`, `claude`, `fork`, …) for ANY work in
-   this project — they cannot invoke /skills, which RULE #0 makes mandatory. Do ALL work (planning, implementation,
-   review, exploration) in the MAIN context. A sub-agent is allowed ONLY when a CUSTOM agent exists in
-   `.claude/agents/` for that exact job.
-2. **Skills always:** before any task, scan the available-skills list and invoke EVERY relevant skill; if a needed
-   skill is missing, download/enable/install it (or use the nearest installed equivalent and say so) — never
-   proceed skill-less.
-3. **Model workflow:** PLAN and REVIEW on **Fable 5**; EXECUTE the approved plan on **Opus 4.8**. Plans in
-   `~/.claude/plans/`; multi-phase features keep a resumable tracker (`docs/features/<slug>/00-tracker.json`),
-   resumed rather than re-planned from zero.
+## Context record
 
-Global records (rules, policy, audit reports) live in the `ahsan-notebook` repo at
-`static/assets/claude-code/`; the `~/.claude/…` paths are symlinks into it. Full text: `~/.claude/CLAUDE.md`.
-(Owner directives 2026-07-11 / 2026-07-14; fleet-rolled 2026-07-16.)
+The root and `docs/` guide pairs were reviewed on 2026-10-20. Obsolete Firebase deployment instructions
+were removed because GitHub Pages is the active host. Routine context work is ineligible before 2026-11-19
+unless the tree changes materially or an instruction is proven stale.

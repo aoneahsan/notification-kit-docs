@@ -1,64 +1,45 @@
-# notification-kit-docs
+# notification-kit docs
 
-Public documentation site for the [`notification-kit`](https://www.npmjs.com/package/notification-kit) npm package — a unified notification library for React + Capacitor apps.
+Public documentation for [`notification-kit`](https://www.npmjs.com/package/notification-kit), a unified
+notification library for React and Capacitor applications.
 
-- **Live site**: https://notification-kit-docs.aoneahsan.com
-- **Docs source**: this repo (public)
-- **Package source (private)**: https://github.com/aoneahsan/notification-kit
-- **npm package**: https://www.npmjs.com/package/notification-kit
-- **Author**: [Ahsan Mahmood](https://aoneahsan.com)
+- **Live site:** <https://notification-kit-docs.aoneahsan.com>
+- **Package source:** <https://github.com/aoneahsan/notification-kit>
+- **npm package:** <https://www.npmjs.com/package/notification-kit>
+- **Package version documented:** `2.1.3`
 
-Built with [Docusaurus 3](https://docusaurus.io/). Deployable to Firebase Hosting or GitHub Pages.
-
----
-
-## Local development
+## Local work
 
 ```bash
-yarn install
-yarn start          # dev server at http://localhost:5962
-yarn build          # production build into ./build
-yarn serve          # preview the production build at http://localhost:5963
-yarn typecheck      # TypeScript-only check, no emit
+yarn install --immutable
+yarn typecheck
+yarn build
+yarn serve
 ```
 
-> Per the workspace convention, the agent does not run the dev server — the maintainer runs and tests. `yarn build` + `yarn typecheck` are the verification gates.
+The production build is written to `build/`. The site deploys from `main` through
+`.github/workflows/deploy-pages.yml`; `static/CNAME` preserves the custom domain.
 
-## Project structure
+## Structure
 
-```
-notification-kit-docs/
-├── docs/                    # Markdown content (the actual docs)
-│   ├── intro.md
-│   ├── getting-started/     # installation, quick-start, configuration
-│   ├── guides/              # push, local, in-app, channels, permissions, events, react-hooks
-│   ├── platforms/           # web, android, ios
-│   ├── providers/           # firebase, onesignal
-│   ├── reference/           # complete API reference
-│   ├── help/                # faq, troubleshooting
-│   ├── changelog.md
-│   └── about-the-author.md
-├── src/                     # homepage + theme CSS
-├── static/                  # robots.txt, llms.txt, security.txt, CNAME, images
-├── docusaurus.config.ts
-├── sidebars.ts
-├── firebase.json + .firebaserc   # Firebase Hosting config
-└── .github/workflows/deploy-pages.yml  # GitHub Pages deploy
-```
+| Path | Purpose |
+|---|---|
+| `docs/` | Guides, platform setup, providers, API reference, help, and changelog |
+| `src/` | Homepage and shared theme styles |
+| `static/` | Search and crawler files, branding, CNAME, and security contact |
+| `docusaurus.config.ts` | Site metadata, navigation, plugins, and theme settings |
+| `sidebars.ts` | Documentation navigation |
 
-## Single source of truth
+## Source of truth
 
-Every API fact in these docs comes from the `notification-kit` package source (`src/`). No invented method names or parameters. When the package's public API changes, update the matching reference page in the same pass.
+Verify API names, types, behavior, and limitations against the package repository’s `src/` and built
+declarations. Client-side push sending and Firebase topic management remain server-side operations. Never
+place provider credentials or private keys in this public repository.
 
-## Deploy
+## Publishing
 
-Two hosting options are wired:
+A push to `main` runs the GitHub Pages workflow. Before pushing, run the immutable install, typecheck, and
+production build, then inspect the exact build in a controlled browser. After the workflow succeeds, verify
+the live home page and changed routes on the custom domain.
 
-- **Firebase Hosting**: `yarn firebase:deploy` (needs the `notification-kit-docs` Firebase project + your login).
-- **GitHub Pages**: the `deploy-pages.yml` workflow builds and publishes `./build` on push to `main`. Enable it under repo Settings → Pages → Source = "GitHub Actions". The `static/CNAME` file maps the custom domain.
-
-Both are USER-ONLY actions (they need your credentials / DNS access).
-
----
-
-Built by [Ahsan Mahmood](https://aoneahsan.com) · MIT-licensed.
+Built by [Ahsan Mahmood](https://aoneahsan.com) and released under the MIT License.
